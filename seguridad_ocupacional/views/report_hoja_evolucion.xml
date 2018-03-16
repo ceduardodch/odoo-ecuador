@@ -1,0 +1,51 @@
+<odoo>
+
+    <report
+        id="report_hoja_evolucion"
+        model="seguridad.ficha"
+        string="Hoja Evolucion"
+        name="seguridad_ocupacional.report_hoja_evolucion_view"
+        file="seguridad_ocupacional.hoja_evolucion_ficha"
+        report_type="qweb-pdf" />
+
+    <template id="report_hoja_evolucion_view">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <p><b>NOMBRES Y APELLIDOS:</b> <spam t-field="doc.name"/></p>
+                        <BR></BR>
+                        <BR></BR>
+                        <h4>El profesional debe firmar al pie de cada nota de evolución y prescripciones, las mismas que deberán coincidir con la hora en que fueron formuladas</h4>
+                        <table class="table table-condensed">
+                                <thead>
+											<tr style="border-bottom:1px black;border-style: solid;">
+												<th>Fecha</th>
+												<th>Hora</th>
+                                                <th>Nota de Evolución</th>
+                                                <th>Prescripción Medica</th>
+                                                <th>Administración de Medicamentos</th>
+											</tr>
+                                </thead>
+                        <tbody>
+                            <t t-foreach="doc.hoja_ids" t-as="h">
+                            <tr style="border-bottom:1px black;border-style: solid;">
+
+                                <td><span t-field="h.fecha" t-field-options='{"format": "dd MM y"}'/></td>
+                                <td><span t-field="h.fecha" t-field-options='{"format": "hh:mm"}'/></td>
+                                <td><span t-field="h.nota_evolucion"/></td>
+                                <td><span t-field="h.prescripcion"/></td>
+                                <td><span t-field="h.medicamentos"/></td>
+
+                            </tr>
+</t>
+                        </tbody>
+					</table>
+                    </div>
+                </t>
+
+            </t>
+        </t>
+    </template>
+
+</odoo>

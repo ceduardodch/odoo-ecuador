@@ -1,0 +1,264 @@
+
+<odoo>
+
+    <report
+        id="report_session"
+        model="seguridad.ficha"
+        string="Ficha Medica"
+        name="seguridad_ocupacional.report_ficha_view"
+        file="seguridad_ocupacional.report_ficha"
+        report_type="qweb-pdf" />
+
+    <template id="report_ficha_view">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <p>Fecha:<span t-field="doc.create_date"/></p>
+                        <p>Nombres y Apellidos: <spam t-field="doc.name"/></p>
+                        <p>Edad: <spam t-field="doc.age"/></p>
+                        <p>Área: <spam t-field="doc.area"/></p>
+                        <p>Puesto de Trabajo: <spam t-field="doc.job"/></p>
+                        <h3>Antecedentes Laborales:</h3>
+                        <table class="table table-condensed">
+                                <thead>
+											<tr style="border-bottom:1px black;border-style: solid;">
+												<th>Institucion Anterior</th>
+												<th>Cargo</th>
+                                                <th>Funciones</th>
+                                                <th>Elementos de Proteccion</th>
+											</tr>
+                                </thead>
+                        <tbody>
+                        <t t-foreach="doc.antecedente_ids" t-as="antecedentes">
+                            <tr>
+
+                                <td><li><span t-field="antecedentes.name"/></li></td>
+                                <td><li><span t-field="antecedentes.cargo"/></li></td>
+                                <td><li><span t-field="antecedentes.funcion"/></li></td>
+                                <t t-foreach="antecedentes.elemento_id" t-as="elementos"><td><li><span t-field="elementos.name"/></li></td></t>
+                            </tr>
+                        </t>
+
+                        </tbody>
+					</table>
+
+                        <h3>Procesos de Trabajo Peligrosos</h3>
+                        <table class="table table-condensed">
+                                <thead>
+											<tr style="border-bottom:1px black;border-style: solid;">
+												<th>Institución y/o empresa donde laboró</th>
+												<th>Cargos desempeñados en cada empresa</th>
+                                                <th>Tiempo(Años) de exposición</th>
+                                                <th>Físicos</th>
+                                                <th>Químicos</th>
+                                                <th>Ergonómicos</th>
+                                                <th>Biológicos</th>
+                                                <th>Psicósociales</th>
+											</tr>
+                                </thead>
+                        <tbody>
+                        <t t-foreach="doc.factor_ids" t-as="factor">
+                            <tr>
+
+                                <td><span t-field="factor.name"/></td>
+                                <td><span t-field="factor.cargo"/></td>
+                                <td><span t-field="factor.anos"/></td>
+                                <td><t t-foreach="factor.fisico_id" t-as="f"><li><span t-field="f.name"/></li></t></td>
+                                <td><t t-foreach="factor.quimico_id" t-as="q"><li><span t-field="q.name"/></li></t></td>
+                                <td><t t-foreach="factor.ergonomico_id" t-as="e"><li><span t-field="e.name"/></li></t></td>
+                                <td><t t-foreach="factor.biologico_id" t-as="b"><li><span t-field="b.name"/></li></t></td>
+                                <td><t t-foreach="factor.psicologico_id" t-as="p"><li><span t-field="p.name"/></li></t></td>
+                            </tr>
+                        </t>
+
+                        </tbody>
+					</table>
+
+                        <h3>Antecedentes de Salud Familiares</h3>
+                        <table class="table table-condensed">
+                                <thead>
+											<tr style="border-bottom:1px black;border-style: solid;">
+												<th>Antecedentes</th>
+												<th>Observación / Parentesco</th>
+											</tr>
+                                </thead>
+                        <tbody>
+                        <t t-foreach="doc.familiar_ids" t-as="ant">
+                            <tr>
+                                <td><span t-field="ant.name"/></td>
+                                <td><span t-field="ant.descripcion"/></td>
+                            </tr>
+                        </t>
+
+                        </tbody>
+					</table>
+
+                        <h3>Antecedentes de Salud Personales</h3>
+                        <h4>Vacunas:</h4>
+                        <table class="table table-condensed">
+                                <thead>
+											<tr style="border-bottom:1px black;border-style: solid;">
+												<th>Cuando se vacuno</th>
+												<th>Tipo de vacuna</th>
+											</tr>
+                                </thead>
+                        <tbody>
+                        <t t-foreach="doc.vacuna_ids" t-as="vac">
+                            <tr>
+                                <td><span t-field="vac.fecha"/></td>
+                                <td><span t-field="vac.name"/></td>
+                            </tr>
+                        </t>
+
+                        </tbody>
+					</table>
+
+                        <h4>Antecedentes:</h4>
+                        <table class="table table-condensed">
+                                <thead>
+											<tr style="border-bottom:1px black;border-style: solid;">
+												<th>Antecedente</th>
+												<th>Descripción</th>
+											</tr>
+                                </thead>
+                        <tbody>
+                        <t t-foreach="doc.personal_ids" t-as="per">
+                            <tr>
+                                <td><span t-field="per.name"/></td>
+                                <td><span t-field="per.descripcion"/></td>
+                            </tr>
+                        </t>
+
+                        </tbody>
+					</table>
+
+                        <h4>Hábitos:</h4>
+                        <table class="table table-condensed">
+                                <thead>
+											<tr style="border-bottom:1px black;border-style: solid;">
+												<th>Hábito</th>
+												<th>Descripción</th>
+											</tr>
+                                </thead>
+                        <tbody>
+                        <t t-foreach="doc.habito_ids" t-as="hab">
+                            <tr>
+                                <td><span t-field="hab.name"/></td>
+                                <td><span t-field="hab.description"/></td>
+                            </tr>
+                        </t>
+
+                        </tbody>
+					</table>
+
+                        <h3>Revisión por Sistema</h3>
+                        <table class="table table-condensed">
+                                <thead>
+											<tr style="border-bottom:1px black;border-style: solid;">
+												<th>Órgano</th>
+												<th>Observación</th>
+											</tr>
+                                </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><t t-foreach="doc.sistema_id" t-as="sis"><span t-field="sis.name"/></t></td>
+                                <td><span t-field="doc.observacion"/></td>
+                            </tr>
+
+
+                        </tbody>
+					</table>
+
+                        <h3>Examen Físico</h3>
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Presión Arterial (mm.Hg.): </td>
+                                <td><span t-field="doc.presion"/></td>
+                                <td>Frecuencia Cardiaca: </td>
+                                <td><span t-field="doc.frecuencia"/></td>
+                                <td>Peso (kg): </td>
+                                <td><span t-field="doc.peso"/></td>
+                                <td>Estatura (mts): </td>
+                                <td><span t-field="doc.estatura"/></td>
+                            </tr>
+                            <tr>
+                                <td>IMC (kg/mts2):</td>
+                                <td><span t-field="doc.imc"/></td>
+                                <td>Lateralidad:</td>
+                                <td><span t-field="doc.lateralidad"/></td>
+                                <td>Perimetro Abdominal:</td>
+                                <td><span t-field="doc.perimetro"/></td>
+                            </tr>
+					    </table>
+                        <table class="table table-condensed">
+                                <thead>
+											<tr style="border-bottom:1px black;border-style: solid;">
+												<th>Órgano/Sistema</th>
+												<th>Normal/Anormal</th>
+                                                <th>Observaciones o Descripcion de Hallazgos</th>
+											</tr>
+                                </thead>
+                        <tbody>
+                        <t t-foreach="doc.organo_ids" t-as="org">
+                            <tr>
+                                <td><t t-foreach="org.organo_id" t-as="o"><span t-field="o.name"/></t></td>
+                                <td><span t-field="org.tipo"/></td>
+                                <td><span t-field="org.observacion"/></td>
+                            </tr>
+                        </t>
+
+                        </tbody>
+					</table>
+
+
+                        <table>
+                            <tr><td></td></tr>
+                            <tr><td></td></tr>
+                            <tr><td></td></tr>
+                            <tr><td></td></tr>
+                            <tr><td></td></tr>
+                            <tr><td></td></tr>
+                            <tr><td></td></tr>
+                            <tr><td></td></tr>
+                            <tr><td></td></tr>
+                            <tr>
+                                <td style="text-align: center;">MÉDICO OCUPACIONAL</td>
+                                <td style="text-align: center;">PACIENTE</td>
+                            </tr>
+
+					    </table>
+
+
+                        <table class="table table-condensed">
+
+                            <tr>
+                                <td>Condiciones del Trabajador</td>
+                                <td  style="text-align: left;"><span t-field="doc.condicion"/></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Observaciones</td>
+                                <td><span t-field="doc.observacion_condicion"/></td>
+                            </tr>
+
+                        </table>
+
+                        <table class="table table-condensed">
+                            <tr>
+                                <td>Nota: El concepto de aptitud laboral definitivo para el trabajador debe ser dado por el médico ocupacional de la UASB</td>
+                            </tr>
+
+					    </table>
+
+
+                    </div>
+                </t>
+
+            </t>
+        </t>
+    </template>
+
+</odoo>

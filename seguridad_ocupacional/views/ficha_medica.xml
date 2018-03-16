@@ -1,0 +1,513 @@
+<odoo>
+  <data>
+       <record id="hoja_form_view" model="ir.actions.act_window">
+            <field name="name">Hoja Evolución</field>
+            <field name="res_model">seguridad.hoja_evolucion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+
+        </record>
+
+       <record model="ir.ui.view" id="hoja_graph_view">
+            <field name="name">hoja.graph</field>
+            <field name="model">seguridad.hoja_evolucion</field>
+            <field name="arch" type="xml">
+                <graph string="Atenciones por Empleado">
+                    <field name="name"/>
+                </graph>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="course_graph_view">
+            <field name="name">course.graph</field>
+            <field name="model">seguridad.ficha</field>
+            <field name="arch" type="xml">
+                <graph string="Fichas por Empleado">
+                    <field name="name"/>
+                </graph>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="seguridad_hoja_form_view">
+            <field name="name">hoja.form</field>
+            <field name="model">seguridad.hoja_evolucion</field>
+            <field name="arch" type="xml">
+                <form string="Hoja Form">
+                    <sheet>
+                        <group>
+                        <field name="fecha"/>
+                        <field name="name"/>
+                            <field name="nota_evolucion"/>
+                            <field name="prescripcion"/>
+                            <field name="medicamentos"/>
+                            <field name="desde"/>
+                            <field name="hasta"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+      <record model="ir.ui.view" id="seguridad_hoja_tree_view">
+            <field name="name">hoja.tree</field>
+            <field name="model">seguridad.hoja_evolucion</field>
+            <field name="arch" type="xml">
+                <tree string="Hoja Tree">
+                    <field name="fecha"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="course_form_view">
+            <field name="name">ficha.form</field>
+            <field name="model">seguridad.ficha</field>
+            <field name="arch" type="xml">
+                <form string="Course Form">
+                    <sheet>
+                        <group>
+                            <button name="%(seguridad_hoja_tree_view)d"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            type="action">
+                            <field name="hoja_count" widget="statinfo" string="Hoja Evolución"/>
+                        </button>
+                        </group>
+                        <group>
+                            <field name="name" options="{'no_create': True, 'no_create_edit':True, 'no_open':True}" on_change="get_age()"/>
+                            <field name="tipo"/>
+                        </group>
+                        <separator/>
+
+                            <div class="col-sm-3">
+                                <label for="identificacion"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <field name="identificacion"/>
+                            </div>
+                             <div class="col-sm-3">
+                                <label for="age" />
+                            </div>
+                            <div class="col-sm-3">
+                                <field name="age"/>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="dob" />
+                            </div>
+                            <div class="col-sm-3">
+                                <field name="dob"/>
+                            </div>
+
+                             <div class="col-sm-3">
+                                <label for="area" />
+                            </div>
+                            <div class="col-sm-3">
+                                <field name="area"/>
+                            </div>
+
+                             <div class="col-sm-3">
+                                <label for="job" />
+                            </div>
+                            <div class="col-sm-3">
+                                <field name="job"/>
+                            </div>
+                               <div class="col-sm-3">
+                                <label for="marital" />
+                            </div>
+                            <div class="col-sm-3">
+                                <field name="marital"/>
+                            </div>
+
+
+                          <notebook>
+                            <page string="Antecedentes Laborales">
+                                    <field name="antecedente_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                      <field name="name"/>
+                                      <field name="cargo"/>
+                                      <field name="funcion"/>
+                                      <field name="elemento_id" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Procesos de Trabajo Peligrosos">
+                                <field name="factor_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                      <field name="name"/>
+                                      <field name="cargo"/>
+                                      <field name="anos"/>
+                                      <field name="fisico_id" widget="many2many_tags"/>
+                                      <field name="quimico_id" widget="many2many_tags"/>
+                                      <field name="ergonomico_id" widget="many2many_tags"/>
+                                        <field name="biologico_id" widget="many2many_tags"/>
+                                        <field name="psicologico_id" widget="many2many_tags"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Antecedentes Personales">
+                                 <group>
+                                     <div>
+                                        <field name="vacuna_ids" nolabel="1">
+                                        <tree editable="bottom">
+                                          <field name="name"/>
+                                          <field name="fecha"/>
+                                        </tree>
+                                        </field>
+                                     </div>
+                                 </group>
+                                <group>
+                                     <field name="personal_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                      <field name="name"/>
+                                      <field name="descripcion"/>
+                                    </tree>
+                                </field>
+                                </group>
+                                <group>
+                                <field name="habito_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                      <field name="name"/>
+                                      <field name="description"/>
+                                    </tree>
+                                </field>
+                                </group>
+
+                            </page>
+                            <page string="Antecedentes Familiares">
+                                <field name="familiar_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                      <field name="name"/>
+                                      <field name="descripcion"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Revisión por Sistema">
+                                <group>
+                                <field name="sistema_id" widget="many2many_tags"/>
+                                <field name="observacion"></field>
+                                </group>
+                            </page>
+                            <page string="Examen Físico">
+                                <group colspan="4" col="4">
+                                <field name="presion"/>
+                                <field name="frecuencia"></field>
+                                <field name="lateralidad"></field>
+                                    <field name="perimetro"></field>
+                                </group>
+                                <group colspan="4" col="4">
+                                <field name="peso"></field>
+                                <field name="estatura"></field>
+                                <field name="imc"></field>
+                                </group>
+
+                                <field name="organo_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                      <field name="organo_id" widget="many2many_tags"/>
+                                      <field name="tipo"/>
+                                      <field name="observacion"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                            <page string="Resultados">
+                                <group colspan="4" col="8">
+                                    <field name="resultado_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                      <field name="name" />
+                                      <field name="valor"/>
+                                      <field name="observacion"/>
+                                    </tree>
+                                    </field>
+                                </group>
+                                <group colspan="4" col="8">
+                                    <field name="resultado_complementario_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                      <field name="name" />
+                                      <field name="valor"/>
+                                      <field name="observacion"/>
+                                    </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Impresión Diagnóstica y Recomendaciones">
+                                <field name="diagnostico_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                      <field name="diagnostico" />
+                                      <field name="tratamiento"/>
+                                      <field name="observacion"/>
+                                    </tree>
+                                    </field>
+                            </page>
+                            <page string="Condiciones de Trabajo">
+                                <group colspan="4" col="6">
+                                <field name="condicion"></field>
+                                <field name="observacion_condicion"></field>
+                                </group>
+                            </page>
+                              <page string="Hoja de Evolución">
+                                <group>
+                                <field name="hoja_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                      <field name="fecha"/>
+                                      <field name="nota_evolucion"/>
+                                      <field name="prescripcion"/>
+                                      <field name="medicamentos"/>
+                                      <field name="desde"/>
+                                      <field name="hasta"/>
+                                    </tree>
+                                </field>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="course_tree_view">
+            <field name="name">course.tree</field>
+            <field name="model">seguridad.ficha</field>
+            <field name="arch" type="xml">
+                <tree string="Ficha Tree">
+                    <field name="name"/>
+                    <field name="tipo"/>
+                </tree>
+            </field>
+        </record>
+
+       <record model="ir.actions.act_window" id="course_list_action">
+            <field name="name">Ficha Médica</field>
+            <field name="res_model">seguridad.ficha</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Crear la primera ficha médica
+                </p>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="factor_form_view">
+            <field name="name">factor.form</field>
+            <field name="model">seguridad.factor</field>
+            <field name="arch" type="xml">
+                <form string="Factor Form">
+                    <sheet>
+                        <group string="General">
+                            <field name="name"/>
+                            <field name="cargo"/>
+                            <field name="anos"/>
+                            <field name="fisico_id"  widget="many2many_tags"/>
+                            <field name="quimico_id"  widget="many2many_tags"/>
+                            <field name="ergonomico_id"  widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="factor_tree_view">
+            <field name="name">factor.tree</field>
+            <field name="model">seguridad.factor</field>
+            <field name="arch" type="xml">
+                <tree string="Factor Tree" decoration-info="name&lt;5" decoration-danger="name&gt;15">
+                            <field name="name"/>
+                            <field name="cargo"/>
+                            <field name="anos"/>
+                            <field name="fisico_id"  widget="many2many_tags"/>
+                            <field name="quimico_id"  widget="many2many_tags"/>
+                            <field name="ergonomico_id"  widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="organo_tree_view">
+            <field name="name">organo.tree</field>
+            <field name="model">seguridad.organo</field>
+            <field name="arch" type="xml">
+                <tree string="Factor Tree" decoration-info="tipo&lt;5" decoration-danger="tipo&gt;15">
+                            <field name="organo_id" widget="many2many_tags"/>
+                            <field name="tipo"/>
+                            <field name="observacion"/>
+                </tree>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="antecedente_form_view">
+            <field name="name">antecedente.form</field>
+            <field name="model">seguridad.antecedente</field>
+            <field name="arch" type="xml">
+                <form string="Antecedente Form">
+                    <sheet>
+                        <group string="General">
+                            <field name="name"/>
+                            <field name="cargo"/>
+                            <field name="funcion"/>
+                            <field name="elemento_id"  widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="antecedente_tree_view">
+            <field name="name">antecedente.tree</field>
+            <field name="model">seguridad.antecedente</field>
+            <field name="arch" type="xml">
+                <tree string="Antecedente Tree" decoration-info="name&lt;5" decoration-danger="name&gt;15">
+                            <field name="name"/>
+                            <field name="cargo"/>
+                            <field name="funcion"/>
+                            <field name="elemento_id"  widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="familiar_form_view">
+            <field name="name">factor.form</field>
+            <field name="model">seguridad.antecedente_familiar</field>
+            <field name="arch" type="xml">
+                <form string="Familiar Form">
+                    <sheet>
+                        <group string="General">
+                            <field name="name"/>
+                            <field name="descripcion"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+       <record model="ir.ui.view" id="familiar_tree_view">
+            <field name="name">familiar.tree</field>
+            <field name="model">seguridad.antecedente_familiar</field>
+            <field name="arch" type="xml">
+                <tree string="Familiar Tree">
+                            <field name="name"/>
+                            <field name="descripcion"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="personal_form_view">
+            <field name="name">personal.form</field>
+            <field name="model">seguridad.antecedente_personal</field>
+            <field name="arch" type="xml">
+                <form string="Personal Form">
+                    <sheet>
+                        <group string="General">
+                            <field name="name"/>
+                            <field name="descripcion"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="personal_tree_view">
+            <field name="name">personal.tree</field>
+            <field name="model">seguridad.antecedente_personal</field>
+            <field name="arch" type="xml">
+                <tree string="Personal Tree">
+                            <field name="name"/>
+                            <field name="descripcion"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="resultado_form_view">
+            <field name="name">resultado.form</field>
+            <field name="model">seguridad.resultado</field>
+            <field name="arch" type="xml">
+                <form string="Resultado Form">
+                    <sheet>
+                        <group string="General">
+                            <field name="name"/>
+                            <field name="valor"/>
+                            <field name="observacion"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="resultado_tree_view">
+            <field name="name">resultado.tree</field>
+            <field name="model">seguridad.resultado</field>
+            <field name="arch" type="xml">
+                <tree string="Personal Tree">
+                            <field name="name"/>
+                            <field name="valor"/>
+                            <field name="observacion"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="resultado_complementarios_form_view">
+            <field name="name">resultado_complementario.form</field>
+            <field name="model">seguridad.resultado_complementario</field>
+            <field name="arch" type="xml">
+                <form string="Resultado Complementario Form">
+                    <sheet>
+                        <group string="General">
+                            <field name="name"/>
+                            <field name="valor"/>
+                            <field name="observacion"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="resultado_comlplementarios_tree_view">
+            <field name="name">resultado_complementario.tree</field>
+            <field name="model">seguridad.resultado_complementario</field>
+            <field name="arch" type="xml">
+                <tree string="Resultado Complentario Tree">
+                            <field name="name"/>
+                            <field name="valor"/>
+                            <field name="observacion"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+      <record model="ir.ui.view" id="diagnostico_form_view">
+            <field name="name">resultado_complementario.form</field>
+            <field name="model">seguridad.diagnostico</field>
+            <field name="arch" type="xml">
+                <form string="Diagnostico Form">
+                    <sheet>
+                        <group string="General">
+                            <field name="diagnostico"/>
+                            <field name="tratamiento"/>
+                            <field name="observacion"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="diagnostico_tree_view">
+            <field name="name">diagnostico.tree</field>
+            <field name="model">seguridad.diagnostico</field>
+            <field name="arch" type="xml">
+                <tree string="Diagnostico Tree">
+                    <field name="diagnostico"/>
+                    <field name="tratamiento"/>
+                    <field name="observacion"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <menuitem id="main_saludocupacional_menu" name="Salud y Seguridad Ocupacional"
+        web_icon="seguridad_ocupacional,static/description/icon.png"/>
+        <menuitem id="courses_menu" name="Ficha Médica" parent="main_saludocupacional_menu"
+                  action="course_list_action"/>
+
+
+  </data>
+</odoo>

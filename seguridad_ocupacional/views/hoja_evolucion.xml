@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+
+
+       <record id="hoja_form_view" model="ir.actions.act_window">
+            <field name="name">Hoja Evolución</field>
+            <field name="res_model">seguridad.hoja_evolucion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+
+       <record model="ir.ui.view" id="hoja_graph_view">
+            <field name="name">hoja.graph</field>
+            <field name="model">seguridad.hoja_evolucion</field>
+            <field name="arch" type="xml">
+                <graph string="Atenciones por Empleado">
+                    <field name="name"/>
+                </graph>
+            </field>
+        </record>
+
+
+
+       <record model="ir.ui.view" id="seguridad_hoja_tree_view">
+            <field name="name">hoja.tree</field>
+            <field name="model">seguridad.hoja_evolucion</field>
+            <field name="arch" type="xml">
+                <tree string="Hoja Tree">
+                    <field name="fecha"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+      <menuitem id="main_saludocupacional_menu" name="Salud Ocupacional"/>
+      <menuitem id="hoja_menu" name="Hoja de Evolución" parent="main_saludocupacional_menu"
+                  action="hoja_form_view"/>
+
+  </data>
+</odoo>

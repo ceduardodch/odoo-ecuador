@@ -1,0 +1,74 @@
+<odoo>
+
+    <report
+        id="report_certificado"
+        model="seguridad.hoja_evolucion"
+        string="Certificado Médico"
+        name="seguridad_ocupacional.report_certificado_view"
+        file="seguridad_ocupacional.report_certificado"
+        report_type="qweb-pdf" />
+
+    <template id="report_certificado_view">
+        <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="x">
+                <t t-foreach="x.name" t-as="doc">
+
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <table style="width: 70%;margin-left: auto;margin-right: auto;">
+                            <tbody>
+                            <tr><td style="text-align: center;"><h5>PROGRAMA INTEGRAL DE SEGURIDAD Y SALUD DE LOS TRABAJADORES</h5></td></tr>
+                            <tr><td style="text-align: center;"><h4>CERTIFICADO MÉDICO</h4></td></tr>
+                            <tr>
+                            <td style="text-align: right;"><p>Fecha:<b><span t-field="x.create_date"  t-field-options='{"format": "dd MM y"}'/></b></p></td>
+                            </tr>
+                            <tr><td><br></br></td></tr>
+                            <tr><td><br></br></td></tr>
+                            <tr>
+                            <td><p>El Sr.(A) <b><span t-field="doc.name"/></b> con número de cédula <b><span t-field="doc.identificacion"/></b></p></td>
+                            </tr>
+                            <tr>
+                            <td><p>Se presento a la Consulta el día <b><span t-field="x.fecha"/></b></p></td>
+                            </tr>
+                            <tr>
+                            <td><p>Puesto de Trabajo <b><span t-field="doc.job"/></b></p></td>
+                            </tr>
+                            <tr>
+                            <td><p>Reposo Médico Domiciliario:</p></td>
+                            </tr>
+                            <tr>
+                            <td><p>Diagnostico:<span t-field="x.nota_evolucion"/> COD.CIE10</p></td>
+                            </tr>
+                            <tr>
+                            <td><p>Desde:<span t-field="x.desde" t-field-options='{"format": "dd MM y"}'/> Hasta:<span t-field="x.hasta" t-field-options='{"format": "dd MM y"}'/> (En números y letras)</p></td>
+                            </tr>
+                                <tr><td><br></br></td></tr>
+                                <tr><td><br></br></td></tr>
+                                <tr><td><br></br></td></tr>
+                                <tr><td><br></br></td></tr>
+                                <tr><td><br></br></td></tr>
+                                <tr>
+                                    <td style="text-align: center;"><p>Médico Ocupacional</p></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;"><p>Universidad Andina Simón Bolívar</p></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p></p>
+                        <p></p>
+                        <p></p>
+
+
+
+
+
+                    </div>
+                    </t>
+                </t>
+
+            </t>
+        </t>
+    </template>
+
+</odoo>
