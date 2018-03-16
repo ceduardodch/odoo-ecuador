@@ -29,7 +29,7 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem action="action_report_tax_form_open" id="menu_action_tax_report" parent="account.menu_finance_legal_statement" sequence="200"/>
+        <!--<menuitem action="action_report_tax_form_open" id="menu_action_tax_report" parent="account.menu_finance_legal_statement" sequence="200"/>-->
 
 
         <record id="view_account_vat_partner_tree" model="ir.ui.view">
